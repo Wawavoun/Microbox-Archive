@@ -32,12 +32,13 @@ For example to have :
 - floppy as Flex disk 1
 - slave CF as Flex disk 2
 - nothing as Flex disk 4
+
 put 02-00-03-FF into RTC table address $10.
 
 Anyway even if you ask about a CF as a disk somewhere but that the monitor dont detect it at boot it will be not be used.
 Accessing this disk under Flex simply give an error.
 
-Slave CF cant be used if no master CF present. 
+Slave CF will not be detected if no master CF present. 
 
 Last be not least : the Flex disk geometry on the CF is -HARCODED- to 122 tracks / 256 sectors.
 
