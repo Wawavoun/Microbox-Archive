@@ -42,11 +42,11 @@ Slave CF will not be detected if no master CF present.
 
 Last be not least : the Flex disk geometry on the CF is -HARCODED- to 122 tracks / 256 sectors.
 
-You can find here am empty image that can be used with Linux dd to set the disk on CF.
+You can find here an empty image that can be used with Linux dd to set the disk on CF.
 Put it on the DEVICE (fe /dev/sdb), not into a partition.
 This image can be used with Michael Evenson FLoppyMaintenance.
 
-Please report any problem you get with this system.
+Please report any problem you get with this system. I will try to help.
   
 Have fun !
 Philippe
