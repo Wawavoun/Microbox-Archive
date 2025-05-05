@@ -20,7 +20,7 @@ This interface has been tested with a Compact Flash boards adapter and with a ma
 In order to use this board you need a modified monitor (see Monitor).
 
 At boot the CF are automagically detected and initialized. The monitor display what is found.
-The detection routine need a timeout so the monitor need time to come on screen especially if there is no Compatc Flash connected.
+The detection routine need a timeout so the monitor need time to come on screen especially if there is no Compact Flash connected.
 
 The eprom and ram disk routines has been removed from the monitor so you cant use these devices.
 "Ascii dump" is also removed and "Hex dump" has been improved to have hex and ascii display at the same time.
@@ -49,3 +49,5 @@ Please report any problem you get with this system.
   
 Have fun !
 Philippe
+
+Ps : I have not do test with different device that Compact Flash card !!!
