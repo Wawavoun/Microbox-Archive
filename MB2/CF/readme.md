@@ -4,7 +4,7 @@ This folder contain information about a IDE interface that can be used in place 
 
 Zip file is ready for pcb manufacturing.
 The bom is simple :
-- 2x10 IDE connector
+- 2x20 IDE connector
 - 1x26 SK7 connector
 - 74LS04
 - C1 100 nF
