@@ -49,6 +49,7 @@ This image can be used with Michael Evenson FLoppyMaintenance.
 Please report any problem you get with this system. I will try to help.
   
 Have fun !
+
 Philippe
 
 Ps : I have not do test with different device that Compact Flash card !!!
