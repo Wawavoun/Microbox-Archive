@@ -11,9 +11,10 @@ The bom is simple :
 - C2 220 µF / 16 V
 - one 3x jumper header.
 
-With the jumper you can connect pin 20 of ide connector to +5 V or to 0 V. Some adapter (but not all) can be powered by this way.
-Usually pin 20 is removed from most IDE device.
-But in case of external power supply of the CF adapter or the IDE Device you use -REMOVE- this jumper. 
+With the jumper you can connect pin 20 of ide connector to +5 V or to 0 V. 
+Usually pin 20 is removed from most IDE device but some adapter (not all) can be powered by this way.
+
+In case of external power supply of the CF adapter or the IDE Device be careful with this jumper. 
 
 This interface has been tested with a Compact Flash boards adapter and with a master and a slave board.
 
