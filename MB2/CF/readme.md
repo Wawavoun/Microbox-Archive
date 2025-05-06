@@ -35,7 +35,7 @@ For example to have :
 - master CF as Flex disk 0
 - floppy as Flex disk 1
 - slave CF as Flex disk 2
-- nothing as Flex disk 4
+- nothing as Flex disk 3
 
 put 02-00-03-FF into RTC table address $10.
 
