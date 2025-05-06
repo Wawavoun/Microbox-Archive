@@ -48,7 +48,7 @@ Last be not least : the Flex disk geometry on the CF is -HARCODED- to 122 tracks
 
 You can find here an empty image that can be used with Linux dd to set the disk on CF.
 Put it on the DEVICE (fe /dev/sdb), not into a partition.
-This image can be used with Michael Evenson FLoppyMaintenance.
+This image can be used with Michael Evenson FloppyMaintenance.
 
 Please report any problem you get with this system. I will try to help.
   
