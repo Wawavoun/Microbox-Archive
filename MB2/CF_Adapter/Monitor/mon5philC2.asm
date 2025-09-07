@@ -1,8 +1,8 @@
- NAM Mon09
- STTL Ver 5.0B    Ph. Roehr   27/04/2025
+;* NAM Mon09
+;* STTL Ver 5.0C    Ph. Roehr   28/05/2025
 ;******************************************
 ;******************************************
-;** MON09  Ver 5.0B                      **
+;** MON09  Ver 5.0C                      **
 ;** Original design Micro Concepts 1985  **
 ;**                                      **
 ;** Compact Flash adaptation 2025        **
@@ -94,6 +94,7 @@ PORTA               EQU     PIA2
 PORTB               EQU     PIA2+1
 PORTC               EQU     PIA2+2
 PORTCTRL            EQU     PIA2+3
+PIA2PAG             EQU     PIA2>>8
 
 ;* PIA CONTROL BYTES FOR READ AND WRITE TO IDE DRIVE
 
@@ -249,24 +250,24 @@ BLANKD  EQU   $DFFF        ; ?
 
 ;* LIB MINIT
 HDR     FCB     $0A,$0D
-        FCC     '+++ Mon09 Ver 5.0B Ph. Roehr 2025 +++'
+        FCC     "+++ Mon09 Ver 5.0C Ph. Roehr 2025 +++"
         FCB     $04
 PROMPT  FCB     $0A,$0D
-        FCC     '=>'
+        FCC     "=>"
         FCB     $04
 NOTTHS  FCB     $07
-        FCC     ' Unknown command! '
+        FCC     " Unknown command! "
         FCB     $04
 UNMESS  FCB     $07,$07,$07,$07,$07,$07
         FCB     $07,$07,$07,$07
-        FCC     'UNEXPECTED INTERUPT!!!!!!!!!!'
+        FCC     "UNEXPECTED INTERUPT!!!!!!!!!!"
         FCB     $04
 PFAIL   FCB     $07,$07,$07
-        FCC     'Power failure in RTC, reloading defaults'
+        FCC     "Power failure in RTC, reloading defaults"
         FCB     $04
-CFMST   FCC     'Master CF detected'
+CFMST   FCC     "Master CF detected"
         FCB     $04
-CFSLV   FCC     'Slave CF detected'
+CFSLV   FCC     "Slave CF detected"
         FCB     $04
 ;*
 ;* default values for RTC RAM
@@ -411,56 +412,56 @@ CONTINI LDA     SYSREG
 ;***************************
 ;* Jump table for commands *
 ;***************************
-COMTAB  FCC     'HD' ; Hex dump .
+COMTAB  FCC     "HD" ; Hex dump .
         FDB     HD
-        FCC     'DR' ; Display cpu registers.
+        FCC     "DR" ; Display cpu registers.
         FDB     DR
 *
-        FCC     'SB' ; Set baud rate for acia's.
+        FCC     "SB" ; Set baud rate for acia's.
         FDB     SB
-        FCC     'SI' ; Set input port.
+        FCC     "SI" ; Set input port.
         FDB     SI
-        FCC     'SO' ; Set output port.
+        FCC     "SO" ; Set output port.
         FDB     SO
-        FCC     'CD' ; Calculate two's complement branch length.
+        FCC     "CD" ; Calculate two's complement branch length.
         FDB     CD
 *
-        FCC     'RP' ; Run program .
+        FCC     "RP" ; Run program .
         FDB     RP
-        FCC     'JU' ; Jump to program .
+        FCC     "JU" ; Jump to program .
         FDB     JU
-        FCC     'JF' ; Jump to flex warm start ($CD03).
+        FCC     "JF" ; Jump to FLEX warm start ($CD03).
         FDB     JF
-        FCC     'CP' ; Continue program after SWI.
+        FCC     "CP" ; Continue program after SWI.
         FDB     CP
 *
-        FCC     'ME' ; Memory examine and alter .
+        FCC     "ME" ; Memory examine and alter .
         FDB     ME
-        FCC     'PM' ; Poke memory with value (no verify of data).
+        FCC     "PM" ; Poke memory with value (no verify of data).
         FDB     PM
-        FCC     'LK' ; Load ascii text from keyboard .
+        FCC     "LK" ; Load ascii text from keyboard .
         FDB     LK
-        FCC     'SM' ; Shift a block of memory .
+        FCC     "SM" ; Shift a block of memory .
         FDB     SM
-        FCC     'FM' ; Fill memory with a constant value.
+        FCC     "FM" ; Fill memory with a constant value.
         FDB     FM
-        FCC     'FI' ; Find ascii string.
+        FCC     "FI" ; Find ascii string.
         FDB     FI
 *
-        FCC     'TM' ; Quick memory test.
+        FCC     "TM" ; Quick memory test.
         FDB     TM
-        FCC     'TS' ; Drive stepping and select test.
+        FCC     "TS" ; Drive stepping and select test.
         FDB     TS
-        FCC     'TD' ; Test random read on drive.
+        FCC     "TD" ; Test random read on drive.
         FDB     TD
 *
-        FCC     'BO' ; Boot FLEX.COR or FLEX.SYS from logical drive 0
+        FCC     "BO" ; Boot FLEX.COR or FLEX.SYS from logical drive 0
         FDB     BO
-        FCC     'RS' ; Read sector from floppy.
+        FCC     "RS" ; Read sector from floppy.
         FDB     RS
-        FCC     'WS' ; Write sector to floppy.
+        FCC     "WS" ; Write sector to floppy.
         FDB     WS
-        FCC     'DF' ; Format disc to FLEX format.
+        FCC     "DF" ; Format disc to FLEX format.
         FDB     DF
 ;*
 ;*************************************
@@ -469,11 +470,11 @@ COMTAB  FCC     'HD' ; Hex dump .
 ;*************************************
 ;* LIB COMTABLE
 ;*
-        FCC     'BF' ; Boot Flex from floppy 0 regardless of allocation
+        FCC     "BF" ; Boot FLEX from floppy 0 regardless of allocation
         FDB     BF
-        FCC     'DC' ; Display RTC contents
+        FCC     "DC" ; Display RTC contents
         FDB     DC
-        FCC     'MC' ; RTC examine and alter
+        FCC     "MC" ; RTC examine and alter
         FDB     MC
 ;*
         FCB     $FF  ; End of table flag.
@@ -490,8 +491,8 @@ JU      LDX     #JUMES
         JSR     BADDR
         JMP     MAPOUT
 ;*
-;* Jump to flex warm start.
-JFMES   FCB     $0D,"Jump to flex warm start.",4
+;* Jump to FLEX warm start.
+JFMES   FCB     $0D,"Jump to FLEX warm start.",4
 
 JF      LDX     #JFMES
         JSR     PDATA1
@@ -527,12 +528,12 @@ BOMES   FCB     $0D
         FCC     "Booting FLEX...."
         FCB     $04
 NOFLX   FCB     $0A,$0D,$07
-        FCC     "Can't find FLEX!" ; Can't find FLex
+        FCC     "Can't find FLEX!" ; Can't find FLEX
         FCB     $04
 BODIS   FCC     "FLEX"
         FCB     $00,$00,$00,$00
 
-;* Action BO (BOot flex from logical drive 0)
+;* Action BO (BOot FLEX from logical drive 0)
 BO      LDX     #BOMES     ; send message
         JSR     PDATA1
         CLR     DRIVE      ; select drive 0
@@ -570,7 +571,7 @@ BO5     LDD     BUFFER     ; next dir sector
 BOFAIL  LDX     #NOFLX     ; yes,failed !
         JSR     PSTRNG     ; send error message
         JMP     CONTRL     ; and back to Mono9
-* Load Flex.sys
+;* Load FLEX.SYS
 RDSEC   LDD     YTEMP      ; (T/S adr. of file)
         STD     BUFFER     ; put in buffer
         LDY     #BUFFER+256
@@ -691,7 +692,7 @@ CD      LDX     #CALDIS
         LDX     #CALD1
         JSR     PDATA1
         JSR     INCH       ; get 'L/S'
-        CMPA    #'L'       ; was it L ?
+        CMPA    #"L"       ; was it L ?
         BNE     CD1        ; no,branch
         PULS    X          ; recall 'from'
         LEAX    2,X        ; add 2
@@ -789,7 +790,7 @@ ASCLOOP LDA     B,X        ; @@ load byte
         BLT     NOTPRT     ; @@ no
         CMPA    #$7F       ; @@ printable ?
         BLT     HDCONT     ; @@ yes
-NOTPRT  LDA     #'.'       ; @@ if not printable print a dot
+NOTPRT  LDA     #"."       ; @@ if not printable print a dot
 HDCONT  JSR     OUTCH      ; @@ now print
         INCB               ; @@ next byte
         BNE     ASCLOOP    ; @@ 16 bytes printed ? no do again
@@ -799,7 +800,7 @@ HDCONT  JSR     OUTCH      ; @@ now print
         JSR     INCH       ; yes,input a char
         CMPA    #$0D       ; if char == CR
         BEQ     HD4        ; do another page
-        CMPA    #'-'       ; if char == '-'
+        CMPA    #"-"       ; if char == '-'
         LBNE    CONTRL
         LEAX    -512,X     ; do previous page
         BRA     HD4
@@ -843,7 +844,7 @@ ME1     JSR     PCRLF
         JSR     PRINTX     ; display addr
         JSR     OUT2HS     ; and content
         JSR     INCH       ; input a char
-        CMPA    #'-'       ; was it a '-' ?
+        CMPA    #"-"       ; was it a '-' ?
         BNE     ME2
         LEAX    -2,X       ; yes,back 2 locations
         BRA     ME1
@@ -1024,7 +1025,7 @@ WS      LDX     #WRIMES
         JMP     CONTRL
 ;*
 ;* Format disc to FLEX standard.
-DISFOS  FCB     $0D,"Format disc to flex standard on drive ",4
+DISFOS  FCB     $0D,"Format disc to FLEX standard on drive ",4
 SURES   FCB     " scratch disc in drive? ",4
 
 DF      LDX     #DISFOS
@@ -1037,7 +1038,7 @@ DF      LDX     #DISFOS
         LDX     #SURES     ; prompt for scratch
         JSR     PDATA1     ; disc in drive
         JSR     INCH       ; get reply
-        CMPA    #'Y'       ; if not 'Y'
+        CMPA    #"Y"       ; if not 'Y'
         LBNE    CONTRL     ; then abort
 FMT     LDA     #$FF       ; else,initialise
         STA     TRACK      ; (01-1)
@@ -1050,7 +1051,7 @@ FMT1    CLRA
         JSR     SEEK
 ;* This is written to all tracks
         CLRA
-        LDX     #0400      ; starting this addr
+        LDX     #400       ; starting this addr
         LDB     #6
         LBSR    WABT       ; 6 bytes---00
         LDA     #$FC
@@ -1108,7 +1109,7 @@ FMT3    TFR     D,Y        ; save updated link
         CLRB
         LBSR    WABT       ; 256 bytes---FF
 ;* Write a track to disc
-        LDX     #0400
+        LDX     #400
         LDA     #$F4       ; write track cmd.
         LBSR    FCMD
 FMT4    LDA     COMREG     ; get status
@@ -1239,7 +1240,7 @@ TSLOOP  LDA     #40        ; track 40,sector 1
 ;* Extra system dependant commands go here. *
 ;********************************************
 ;* LIB COMMANDS
-;* Boot Flex from floppy 0 regardless of allocation
+;* Boot FLEX from floppy 0 regardless of allocation
 BF      CLR     DDSTAB     ; set Drv.0=floppy 0
         LBRA    BO         ; jump to loader
         JMP     CONTRL     ; this appears to be redundant ?
@@ -1730,7 +1731,7 @@ DUMMY  RTS
 ;* INTAB,OUTTAB and STATAB should be changed to suit *
 ;* these routines. For a description of the drivers  *
 ;* for an 6850 acia see section 3 of the general     *
-;* Flex adaptation guide (pp6-8).                    *
+;* FLEX adaptation guide (pp6-8).                    *
 ;*****************************************************
 ;*
 ;* LIB CONSOLE
@@ -1823,49 +1824,50 @@ QINT2   LDA     ACIA2+1
 ;* Disc drive vector table (1 read, 2 write, 3 verify,
 ;* 4 reset, 5 select, 6 check, 7 quick, 8 init, 9 warm, 10 seek)
 ;*
-TABSRT  FDB     RDFLP      ; floppy drive 0
-        FDB     WRFLP
-        FDB     VRFLP
-        FDB     RSFLP
-        FDB     SELD0
-        FDB     NVC0Z1
-        FDB     NVC0Z1
-        FDB     NVC0Z1
-        FDB     NVC0Z1
-        FDB     SKFLP
-
-        FDB     RDFLP      ; floppy drive 1
-        FDB     WRFLP
-        FDB     VRFLP
-        FDB     RSFLP
-        FDB     SELD1
-        FDB     NVC0Z1
-        FDB     NVC0Z1
-        FDB     NVC0Z1
-        FDB     NVC0Z1
-        FDB     SKFLP
-
-        FDB     RDDT2      ; Disk typ 2
-        FDB     WRDT2      ; 2 is master CF
-        FDB     NVC0Z1     ; 3 is slave CF
-        FDB     DRVDT2
-        FDB     DRVDT2
-        FDB     CHKDT2
-        FDB     NVC0Z1
-        FDB     INIDT2
-        FDB     NVC0Z1
-        FDB     NVC0Z1
-
-        FDB     RDDT2      ; Disk typ 3
-        FDB     WRDT2      ; 2 is master CF
-        FDB     NVC0Z1     ; 3 is slave CF
-        FDB     DRVDT2
-        FDB     DRVDT2
-        FDB     CHKDT2
-        FDB     NVC0Z1
-        FDB     INIDT2
-        FDB     NVC0Z1
-        FDB     NVC0Z1
+; floppy drive 0
+TABSRT  FDB     RDFLP      ; read
+        FDB     WRFLP      ; write
+        FDB     VRFLP      ; verify
+        FDB     RSFLP      ; restore
+        FDB     SELD0      ; drive select
+        FDB     NVC0Z1     ; check
+        FDB     NVC0Z1     ; quick
+        FDB     NVC0Z1     ; init
+        FDB     NVC0Z1     ; warm
+        FDB     SKFLP      ; seek
+;* floppy drive 1
+        FDB     RDFLP      ; read
+        FDB     WRFLP      ; write
+        FDB     VRFLP      ; verify
+        FDB     RSFLP      ; restore
+        FDB     SELD1      ; drive select
+        FDB     NVC0Z1     ; check
+        FDB     NVC0Z1     ; quick
+        FDB     NVC0Z1     ; init
+        FDB     NVC0Z1     ; warm
+        FDB     SKFLP      ; seek
+;* Disk typ 2 -  IDE master
+        FDB     RDDT2      ; read
+        FDB     WRDT2      ; write
+        FDB     NVC0Z1     ; verify
+        FDB     DRVDT2     ; restore because -MUST- call drive select
+        FDB     DRVDT2     ; drive select
+        FDB     CHKDT2     ; check
+        FDB     NVC0Z1     ; quick
+        FDB     INIDT2     ; init
+        FDB     NVC0Z1     ; warm
+        FDB     NVC0Z1     ; seek
+;* Disk typ 3 - IDE slave
+        FDB     RDDT2      ; read
+        FDB     WRDT2      ; write
+        FDB     NVC0Z1     ; verify
+        FDB     DRVDT2     ; restore because -MUST- call drive select
+        FDB     DRVDT2     ; drive select
+        FDB     CHKDT2     ; check
+        FDB     NVC0Z1     ; quick
+        FDB     NVC0Z1     ; init already done by typ 2 disk
+        FDB     NVC0Z1     ; warm
+        FDB     NVC0Z1     ; seek
 
 ;*
 ;* DISC I/O
@@ -2018,16 +2020,14 @@ SETD    STA     SYSREG
 
 ;* Return with N,V,C clear, Z set
 ;* No error
-NVC0Z1  CLRB
-        TSTB
-        ANDCC   #$FE
+NVC0Z1  CLRB                ; clear B - set Z
+        ANDCC   #$FE        ; clear C   
         RTS
 
 ;* Return with N,V,Z clear, C set
 ;* Error
-NVZ0C1  LDB     #$40
-        TSTB
-        ORCC    #$01
+NVZ0C1  LDB     #$40        ; load B - clear Z
+        ORCC    #$01        ; set C
         RTS
 
 ;* Set DP to $FF,speed to fast
@@ -2059,7 +2059,7 @@ SLOW2   RTS
 DRVDT2      PSHS    A,X
             TST     MSTCFOK             ; check if master cf present ?
             BEQ     DRVERR              ; no exit with error
-            LDA     3,X                 ; get Flex disk number
+            LDA     3,X                 ; get FLEX disk number
             LDX     #DDSTAB
             LDB     A,X                 ; get physical disk number
             LDA     #LBA3MST            ; master cf by default
@@ -2076,7 +2076,7 @@ ENDDRVDT2   STA     LBA3                ; update LBA3 in ram
 DRVERR      BSR     NVZ0C1              ; error
             PULS    A,X,PC
 ;*
-;* Compute lba number from flex track/sector
+;* Compute lba number from FLEX track/sector
 ;*
 ;* The cf disk is assumed to be 122 tracks (00$ to $79) of 256 sectors ($00 to $ff)
 ;* This is a 15990784 bytes disk in 31232 lba of 512 bytes
@@ -2084,9 +2084,9 @@ DRVERR      BSR     NVZ0C1              ; error
 ;* A*256+B IS SAME AS PUT REG A INTO MSB OF A WORD THEN ADD REG B
 ;* SO REG A CAN BE DIRECTLY USED AS LBA1 AND REG B AS LBA0
 ;
-;* Input : A = flex track
-;*         B = flex sector
-;*         X = flex fcb address
+;* Input : A = FLEX track
+;*         B = FLEX sector
+;*         X = FLEX fcb address
 ;*
 ;* Output : lba0 and lba1 updated in ram storage zone
 SETLBA      STA     LBA1                ; store lba in table
@@ -2130,35 +2130,36 @@ DATWAIT     LDB     #IDE_STATUS         ; ask status register
 ;* Do a one byte write cycle to ide
 ;* B = cf register where to write
 ;* A = byte to write
+;* !!!--- DP REGISTER MUST BE SET TO PIA2 PAGE ---!!!
 WRT_IDE     PSHS    A
             LDA     #WR_IDE_8255        ; set 8255 A/B/C for output
-            STA     PORTCTRL
+            STA     <PORTCTRL
             PULS    A
-            STA     PORTA               ; prepare lsb on output d0-d7
-            STB     PORTC               ; set cf register address
+            STA     <PORTA              ; prepare lsb on output d0-d7
+            STB     <PORTC              ; set cf register address
             ORB     #IDE_WR             ; assert wr line
-            STB     PORTC
-            EORB    #IDE_WR             ; prepare for wr line release
+            STB     <PORTC
             BRA     ENDIDERW
 ;*
 ;* Do a one byte read cycle from ide
 ;* B = cf register to read
 ;* A = byte read
+;* !!!--- DP REGISTER MUST BE SET TO PIA2 PAGE ---!!!
 READ_IDE    LDA     #RD_IDE_8255        ; set 8255 A/B for input C for output
-            STA     PORTCTRL
-            STB     PORTC               ; set cf register address
+            STA     <PORTCTRL
+            STB     <PORTC              ; set cf register address
             ORB     #IDE_RD             ; assert rd line
-            STB     PORTC
-            LDA     PORTA               ; read lsb from d0-d7
-            EORB    #IDE_RD             ; prepare for rd line release
+            STB     <PORTC
+            LDA     <PORTA              ; read lsb from d0-d7
 
-ENDIDERW    STB     PORTC               ; release line
-            CLR     PORTC               ; release ide device
+ENDIDERW    CLR     PORTC               ; release ide device
             RTS
 ;*
 ;* Read sector from disk typ 8255 / ide
 ;* (A=track,B=sector,X=addr of a sector buffer)
-RDDT2       PSHS    Y,X,B,A
+RDDT2       PSHS    DP,Y,X,B,A
+
+            BSR     SETDP               ; set DP register
 
             BSR     SETLBA              ; compute lba and set params in cf
 
@@ -2177,7 +2178,9 @@ RDLOOP      BSR     CHKDRQ
 ;*
 ;* Write a sector to disk typ 8255 / ide
 ;* (A=track,B=sector,X=addr of a sector buffer)
-WRDT2       PSHS    Y,X,B,A
+WRDT2       PSHS    DP,Y,X,B,A
+
+            BSR     SETDP               ; set DP register
 
             JSR     SETLBA              ; compute lba and set params in cf
 
@@ -2195,7 +2198,7 @@ WRLOOP      BSR     CHKDRQ
             BRA     WRLOOP
 
 RWEXIT      JSR     NVC0Z1              ;  set cc with no error & rts
-            PULS    Y,X,B,A,PC
+            PULS    DP,Y,X,B,A,PC
 ;*
 ;* Check cf DRQ bit
 ;* Return Z=0 if DRQ set
@@ -2205,6 +2208,14 @@ CHKDRQ      BSR     DATWAIT
             BSR     READ_IDE
             BITA    #DRQBIT
             RTS
+
+;*
+;* Set DP register to PIA2 page
+SETDP       PSHS    A
+            LDA     #PIA2PAG
+            TFR     A,DP
+            PULS    A,PC
+
 ;*
 ;* Chkrdy disk typ 2 & 3
 ;* We just check if CF has been detected by init routine
@@ -2212,7 +2223,7 @@ CHKDT2      PSHS    X,A
             TST     MSTCFOK
             BEQ     NOTRDY              ; no master then also no slave exit not ready
 
-            LDA     3,X                 ; load flex disk number
+            LDA     3,X                 ; load FLEX disk number
             LDX     #DDSTAB
             LDB     A,X                 ; load physical disk number
             CMPB    #$02                ; master cf asked ?
@@ -2227,7 +2238,11 @@ NOTRDY      JSR     NVZ0C1              ; error - clear Z - set C
             PULS    X,A,PC
 ;*
 ;* Detect and init disk typ 2 & 3 CF on 8255 ide port
-INIDT2      LDB     #IDE_LBA3           ; set lba3 for master cf
+INIDT2      PSHS    DP
+
+            BSR     SETDP               ; set DP register
+
+            LDB     #IDE_LBA3           ; set lba3 for master cf
             LDA     #LBA3MST
             STA     LBA3                ; sync ram table
             JSR     WRT_IDE
@@ -2245,7 +2260,7 @@ ILOOP1      LDB     #IDE_STATUS         ; ask status register
             BEQ     ENDINI              ; time out end cf int (if no master then no slave)
             BRA     ILOOP1              ; do again
 MSTOK       BITA    #RDYBIT             ; must also check ready bit set
-            BEQ     ENDINI              ; error set ? yes end cf init
+            BEQ     ENDINI              ; error set ? yes no cf end init
             INC     ,Y+                 ; no set cf flag - Y point to next flag
 
             CMPY    #SLVCFOK+1          ; master and slave done ?
@@ -2259,7 +2274,7 @@ MSTOK       BITA    #RDYBIT             ; must also check ready bit set
 ENDINI      LDB     #IDE_LBA3           ; set lba3 for master cf
             LDA     #LBA3MST
             JSR     WRT_IDE
-            RTS
+            PULS    DP,PC
 
 ;* =====================================================================
 ;* END OF VARIOUS IDE / 8255 DISK ROUTINES
@@ -2278,7 +2293,7 @@ ENDINI      LDB     #IDE_LBA3           ; set lba3 for master cf
 ;* jump tables themselves. For a full    *
 ;* description of the floppy drivers see *
 ;* section 4 (pp9-14) of the general     *
-;* Flex adaptation guide.                *
+;* FLEX adaptation guide.                *
 ;*****************************************
 ;*
 ;* LIB DISK
@@ -2511,7 +2526,7 @@ OUT2HS  BSR     OUT2H      ; Output 2 hex chars + space.
 ;* Output a space.
 ;* Entry: no parameters.
 ;* Exit   (A) = Destroyed.
-OUTS    LDA     #' '       ; Output space.
+OUTS    LDA     #" "       ; Output space.
         JMP    OUTCH
 ;*
 ;* Random number generator.
@@ -3673,14 +3688,14 @@ CSETB   FCB     $00,$00,$00,$00,$00 ; space
 ;*
           ORG (PROM+$1FF0)
 
-          FDB      RESET               Not implemented in 6809.
-          FDB      SWI3                Software interupt three.
-          FDB      SWI2                Software interupt two.
-          FDB      FIRQ                Fast interupt request.
-          FDB      IRQ                 Interupt request.
-          FDB      SWI                 Software interupt.
-          FDB      NMI                 Non-maskable interupt.
-VCRST     FDB      RESET               Cold start.
+          FDB      RESET                 ; Not implemented in 6809.
+          FDB      SWI3                  ; Software interupt three.
+          FDB      SWI2                  ; Software interupt two.
+          FDB      FIRQ                  ; Fast interupt request.
+          FDB      IRQ                   ; Interupt request.
+          FDB      SWI                   ; Software interupt.
+          FDB      NMI                   ; Non-maskable interupt.
+VCRST     FDB      RESET                 ; Cold start.
 ;*
 ;*
           END

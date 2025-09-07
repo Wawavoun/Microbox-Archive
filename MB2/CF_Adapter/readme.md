@@ -13,9 +13,9 @@ Zip file is ready for pcb manufacturing. The bom is simple :
 
 With the jumper you can connect pin 20 of ide connector to +5 V or to 0 V. Usually pin 20 is removed from most IDE device but some adapter (not all) can be powered by this way.
 
-In case of external power supply of the CF adapter or the IDE Device be careful with this jumper.
+In case of external power supply of the CF adapter or the IDE device be careful with this jumper.
 
-This interface has been tested with a Compact Flash boards adapter and with a master and a slave board.
+This interface has been tested with a Compact Flash boards adapter and with master and slave boards.
 
 In order to use this board you need a modified monitor (see Monitor).
 
@@ -45,7 +45,7 @@ Anyway even if you ask about a CF as a disk somewhere but that the monitor dont 
 Slave CF will not be detected if no master CF present.
 
 Last be not least :
-- The Flex disk geometry for CF is -HARCODED- into the monitor to 256 sectors per track.
+- The Flex disk geometry for CF is -HARDCODED- into the monitor to 256 sectors per track.
 - Track number can be increased up to 255 without modification, the number of tracks is read from the SIR.
 
 You can find here an empty image with 122 tracks that can be used with Linux dd to set the file system on CF. Put it on the DEVICE (fe /dev/sdb), not into a partition. This image can be used with Michael Evenson 'FloppyMaintenance'.
